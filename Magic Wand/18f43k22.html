@@ -1,0 +1,204 @@
+<HTML>
+<HEAD>
+<TITLE>HI-TECH C Compiler for PIC18 MCUs: 18F43K22 Support Information</TITLE>
+<LINK rel=stylesheet href="" type="text/css"
+</HEAD>
+<h2 class="">18F43K22 Support Information</h2>
+<h3 class="">#pragma config Usage</h3>
+<h4 class="">#pragma config &lt;setting&gt;=&lt;named value&gt;</h4>
+For example:<br>
+<code>// Internal/External Oscillator Switchover bit: Oscillator Switchover mode disabled<br>// Oscillator Selection bits: External RC oscillator<br>// Primary clock enable bit: Primary clock can be disabled by software<br>// Fail-Safe Clock Monitor Enable bit: Fail-Safe Clock Monitor disabled<br>// 4X PLL Enable: Oscillator used directly<br>#pragma config IESO = OFF, FOSC = RCIO6, PRICLKEN = OFF, FCMEN = OFF, PLLCFG = OFF</code><h4 class="">#pragma config &lt;setting&gt;=&lt;literal constant&gt;</h4>
+For example:<br>
+<code>// Internal/External Oscillator Switchover bit: Oscillator Switchover mode disabled<br>// Oscillator Selection bits: External RC oscillator<br>// Primary clock enable bit: Primary clock can be disabled by software<br>// Fail-Safe Clock Monitor Enable bit: Fail-Safe Clock Monitor disabled<br>// 4X PLL Enable: Oscillator used directly<br>#pragma config IESO = 0x0, FOSC = 0x7, PRICLKEN = 0x0, FCMEN = 0x0, PLLCFG = 0x0</code><h4 class="">#pragma config &lt;register&gt;=&lt;literal constant&gt;</h4>
+For example:
+<br>
+<code>// Internal/External Oscillator Switchover bit: Oscillator Switchover mode disabled<br>// Oscillator Selection bits: External RC oscillator<br>// Primary clock enable bit: Primary clock can be disabled by software<br>// Fail-Safe Clock Monitor Enable bit: Fail-Safe Clock Monitor disabled<br>// 4X PLL Enable: Oscillator used directly<br>#pragma config CONFIG1H = 0x7</code><br>
+<br>
+For example:
+<br>
+<code>// IDLOC @ 0x200000<br>
+#pragma config IDLOC0 = 0xFF</code><h3 class="">#pragma config Settings</h3>
+<h4 class="">Register: CONFIG1H @ 0x300001</h4>
+<table class="">
+<tr><td><b>IESO =</b></td><td><b>Internal/External Oscillator Switchover bit</b></td></tr>
+<tr><td>OFF</td><td>Oscillator Switchover mode disabled</td></tr>
+<tr><td>ON</td><td>Oscillator Switchover mode enabled</td></table>
+<table class="">
+<tr><td><b>FOSC =</b></td><td><b>Oscillator Selection bits</b></td></tr>
+<tr><td>RCIO6</td><td>External RC oscillator</td></tr>
+<tr><td>RC</td><td>External RC oscillator, CLKOUT function on OSC2</td></tr>
+<tr><td>ECMPIO6</td><td>EC oscillator (medium power, 500 kHz-16 MHz)</td></tr>
+<tr><td>ECMP</td><td>EC oscillator, CLKOUT function on OSC2 (medium power, 500 kHz-16 MHz)</td></tr>
+<tr><td>INTIO7</td><td>Internal oscillator block, CLKOUT function on OSC2</td></tr>
+<tr><td>ECHPIO6</td><td>EC oscillator (high power, >16 MHz)</td></tr>
+<tr><td>ECHP</td><td>EC oscillator, CLKOUT function on OSC2 (high power, >16 MHz)</td></tr>
+<tr><td>HSMP</td><td>HS oscillator (medium power 4-16 MHz)</td></tr>
+<tr><td>XT</td><td>XT oscillator</td></tr>
+<tr><td>LP</td><td>LP oscillator</td></tr>
+<tr><td>HSHP</td><td>HS oscillator (high power > 16 MHz)</td></tr>
+<tr><td>ECLPIO6</td><td>EC oscillator (low power, <500 kHz)</td></tr>
+<tr><td>ECLP</td><td>EC oscillator, CLKOUT function on OSC2 (low power, <500 kHz)</td></tr>
+<tr><td>INTIO67</td><td>Internal oscillator block</td></table>
+<table class="">
+<tr><td><b>PRICLKEN =</b></td><td><b>Primary clock enable bit</b></td></tr>
+<tr><td>OFF</td><td>Primary clock can be disabled by software</td></tr>
+<tr><td>ON</td><td>Primary clock is always enabled</td></table>
+<table class="">
+<tr><td><b>FCMEN =</b></td><td><b>Fail-Safe Clock Monitor Enable bit</b></td></tr>
+<tr><td>OFF</td><td>Fail-Safe Clock Monitor disabled</td></tr>
+<tr><td>ON</td><td>Fail-Safe Clock Monitor enabled</td></table>
+<table class="">
+<tr><td><b>PLLCFG =</b></td><td><b>4X PLL Enable</b></td></tr>
+<tr><td>OFF</td><td>Oscillator used directly</td></tr>
+<tr><td>ON</td><td>Oscillator multiplied by 4</td></table>
+<h4 class="">Register: CONFIG2L @ 0x300002</h4>
+<table class="">
+<tr><td><b>BOREN =</b></td><td><b>Brown-out Reset Enable bits</b></td></tr>
+<tr><td>NOSLP</td><td>Brown-out Reset enabled in hardware only and disabled in Sleep mode (SBOREN is disabled)</td></tr>
+<tr><td>OFF</td><td>Brown-out Reset disabled in hardware and software</td></tr>
+<tr><td>ON</td><td>Brown-out Reset enabled and controlled by software (SBOREN is enabled)</td></tr>
+<tr><td>SBORDIS</td><td>Brown-out Reset enabled in hardware only (SBOREN is disabled)</td></table>
+<table class="">
+<tr><td><b>BORV =</b></td><td><b>Brown Out Reset Voltage bits</b></td></tr>
+<tr><td>250</td><td>VBOR set to 2.50 V nominal</td></tr>
+<tr><td>190</td><td>VBOR set to 1.90 V nominal</td></tr>
+<tr><td>285</td><td>VBOR set to 2.85 V nominal</td></tr>
+<tr><td>220</td><td>VBOR set to 2.20 V nominal</td></table>
+<table class="">
+<tr><td><b>PWRTEN =</b></td><td><b>Power-up Timer Enable bit</b></td></tr>
+<tr><td>OFF</td><td>Power up timer disabled</td></tr>
+<tr><td>ON</td><td>Power up timer enabled</td></table>
+<h4 class="">Register: CONFIG2H @ 0x300003</h4>
+<table class="">
+<tr><td><b>WDTPS =</b></td><td><b>Watchdog Timer Postscale Select bits</b></td></tr>
+<tr><td>8</td><td>1:8</td></tr>
+<tr><td>1</td><td>1:1</td></tr>
+<tr><td>32768</td><td>1:32768</td></tr>
+<tr><td>1024</td><td>1:1024</td></tr>
+<tr><td>2</td><td>1:2</td></tr>
+<tr><td>32</td><td>1:32</td></tr>
+<tr><td>16</td><td>1:16</td></tr>
+<tr><td>16384</td><td>1:16384</td></tr>
+<tr><td>128</td><td>1:128</td></tr>
+<tr><td>4096</td><td>1:4096</td></tr>
+<tr><td>64</td><td>1:64</td></tr>
+<tr><td>8192</td><td>1:8192</td></tr>
+<tr><td>2048</td><td>1:2048</td></tr>
+<tr><td>512</td><td>1:512</td></tr>
+<tr><td>256</td><td>1:256</td></tr>
+<tr><td>4</td><td>1:4</td></table>
+<table class="">
+<tr><td><b>WDTEN =</b></td><td><b>Watchdog Timer Enable bits</b></td></tr>
+<tr><td>NOSLP</td><td>WDT is disabled in sleep, otherwise enabled. SWDTEN bit has no effect</td></tr>
+<tr><td>OFF</td><td>Watch dog timer is always disabled. SWDTEN has no effect.</td></tr>
+<tr><td>ON</td><td>WDT is always enabled. SWDTEN bit has no effect</td></tr>
+<tr><td>SWON</td><td>WDT is controlled by SWDTEN bit of the WDTCON register</td></table>
+<h4 class="">Register: CONFIG3H @ 0x300005</h4>
+<table class="">
+<tr><td><b>P2BMX =</b></td><td><b>ECCP2 B output mux bit</b></td></tr>
+<tr><td>PORTC0</td><td>P2B is on RC0</td></tr>
+<tr><td>PORTD2</td><td>P2B is on RD2</td></table>
+<table class="">
+<tr><td><b>CCP2MX =</b></td><td><b>CCP2 MUX bit</b></td></tr>
+<tr><td>PORTC1</td><td>CCP2 input/output is multiplexed with RC1</td></tr>
+<tr><td>PORTB3</td><td>CCP2 input/output is multiplexed with RB3</td></table>
+<table class="">
+<tr><td><b>PBADEN =</b></td><td><b>PORTB A/D Enable bit</b></td></tr>
+<tr><td>OFF</td><td>PORTB<5:0> pins are configured as digital I/O on Reset</td></tr>
+<tr><td>ON</td><td>PORTB<5:0> pins are configured as analog input channels on Reset</td></table>
+<table class="">
+<tr><td><b>CCP3MX =</b></td><td><b>P3A/CCP3 Mux bit</b></td></tr>
+<tr><td>PORTE0</td><td>P3A/CCP3 input/output is mulitplexed with RE0</td></tr>
+<tr><td>PORTB5</td><td>P3A/CCP3 input/output is multiplexed with RB5</td></table>
+<table class="">
+<tr><td><b>MCLRE =</b></td><td><b>MCLR Pin Enable bit</b></td></tr>
+<tr><td>INTMCLR</td><td>RE3 input pin enabled; MCLR disabled</td></tr>
+<tr><td>EXTMCLR</td><td>MCLR pin enabled, RE3 input pin disabled</td></table>
+<table class="">
+<tr><td><b>HFOFST =</b></td><td><b>HFINTOSC Fast Start-up</b></td></tr>
+<tr><td>OFF</td><td>HFINTOSC output and ready status are delayed by the oscillator stable status</td></tr>
+<tr><td>ON</td><td>HFINTOSC output and ready status are not delayed by the oscillator stable status</td></table>
+<table class="">
+<tr><td><b>T3CMX =</b></td><td><b>Timer3 Clock input mux bit</b></td></tr>
+<tr><td>PORTC0</td><td>T3CKI is on RC0</td></tr>
+<tr><td>PORTB5</td><td>T3CKI is on RB5</td></table>
+<h4 class="">Register: CONFIG4L @ 0x300006</h4>
+<table class="">
+<tr><td><b>DEBUG =</b></td><td><b>Background Debug</b></td></tr>
+<tr><td>OFF</td><td>Disabled</td></tr>
+<tr><td>ON</td><td>Enabled</td></table>
+<table class="">
+<tr><td><b>STVREN =</b></td><td><b>Stack Full/Underflow Reset Enable bit</b></td></tr>
+<tr><td>OFF</td><td>Stack full/underflow will not cause Reset</td></tr>
+<tr><td>ON</td><td>Stack full/underflow will cause Reset</td></table>
+<table class="">
+<tr><td><b>XINST =</b></td><td><b>Extended Instruction Set Enable bit</b></td></tr>
+<tr><td>OFF</td><td>Instruction set extension and Indexed Addressing mode disabled (Legacy mode)</td></tr>
+<tr><td>ON</td><td>Instruction set extension and Indexed Addressing mode enabled</td></table>
+<table class="">
+<tr><td><b>LVP =</b></td><td><b>Single-Supply ICSP Enable bit</b></td></tr>
+<tr><td>OFF</td><td>Single-Supply ICSP disabled</td></tr>
+<tr><td>ON</td><td>Single-Supply ICSP enabled if MCLRE is also 1</td></table>
+<h4 class="">Register: CONFIG5L @ 0x300008</h4>
+<table class="">
+<tr><td><b>CP0 =</b></td><td><b>Code Protection Block 0</b></td></tr>
+<tr><td>OFF</td><td>Block 0 (000200-000FFFh) not code-protected</td></tr>
+<tr><td>ON</td><td>Block 0 (000200-000FFFh) code-protected</td></table>
+<table class="">
+<tr><td><b>CP1 =</b></td><td><b>Code Protection Block 1</b></td></tr>
+<tr><td>OFF</td><td>Block 1 (001000-001FFFh) not code-protected</td></tr>
+<tr><td>ON</td><td>Block 1 (001000-001FFFh) code-protected</td></table>
+<h4 class="">Register: CONFIG5H @ 0x300009</h4>
+<table class="">
+<tr><td><b>CPD =</b></td><td><b>Data EEPROM Code Protection bit</b></td></tr>
+<tr><td>OFF</td><td>Data EEPROM not code-protected</td></tr>
+<tr><td>ON</td><td>Data EEPROM code-protected</td></table>
+<table class="">
+<tr><td><b>CPB =</b></td><td><b>Boot Block Code Protection bit</b></td></tr>
+<tr><td>OFF</td><td>Boot block (000000-0001FFh) not code-protected</td></tr>
+<tr><td>ON</td><td>Boot block (000000-0001FFh) code-protected</td></table>
+<h4 class="">Register: CONFIG6L @ 0x30000A</h4>
+<table class="">
+<tr><td><b>WRT0 =</b></td><td><b>Write Protection Block 0</b></td></tr>
+<tr><td>OFF</td><td>Block 0 (000200-000FFFh) not write-protected</td></tr>
+<tr><td>ON</td><td>Block 0 (000200-000FFFh) write-protected</td></table>
+<table class="">
+<tr><td><b>WRT1 =</b></td><td><b>Write Protection Block 1</b></td></tr>
+<tr><td>OFF</td><td>Block 1 (001000-001FFFh) not write-protected</td></tr>
+<tr><td>ON</td><td>Block 1 (001000-001FFFh) write-protected</td></table>
+<h4 class="">Register: CONFIG6H @ 0x30000B</h4>
+<table class="">
+<tr><td><b>WRTB =</b></td><td><b>Boot Block Write Protection bit</b></td></tr>
+<tr><td>OFF</td><td>Boot Block (000000-0001FFh) not write-protected</td></tr>
+<tr><td>ON</td><td>Boot Block (000000-0001FFh) write-protected</td></table>
+<table class="">
+<tr><td><b>WRTC =</b></td><td><b>Configuration Register Write Protection bit</b></td></tr>
+<tr><td>OFF</td><td>Configuration registers (300000-3000FFh) not write-protected</td></tr>
+<tr><td>ON</td><td>Configuration registers (300000-3000FFh) write-protected</td></table>
+<table class="">
+<tr><td><b>WRTD =</b></td><td><b>Data EEPROM Write Protection bit</b></td></tr>
+<tr><td>OFF</td><td>Data EEPROM not write-protected</td></tr>
+<tr><td>ON</td><td>Data EEPROM write-protected</td></table>
+<h4 class="">Register: CONFIG7L @ 0x30000C</h4>
+<table class="">
+<tr><td><b>EBTR0 =</b></td><td><b>Table Read Protection Block 0</b></td></tr>
+<tr><td>OFF</td><td>Block 0 (000200-000FFFh) not protected from table reads executed in other blocks</td></tr>
+<tr><td>ON</td><td>Block 0 (000200-000FFFh) protected from table reads executed in other blocks</td></table>
+<table class="">
+<tr><td><b>EBTR1 =</b></td><td><b>Table Read Protection Block 1</b></td></tr>
+<tr><td>OFF</td><td>Block 1 (001000-001FFFh) not protected from table reads executed in other blocks</td></tr>
+<tr><td>ON</td><td>Block 1 (001000-001FFFh) protected from table reads executed in other blocks</td></table>
+<h4 class="">Register: CONFIG7H @ 0x30000D</h4>
+<table class="">
+<tr><td><b>EBTRB =</b></td><td><b>Boot Block Table Read Protection bit</b></td></tr>
+<tr><td>OFF</td><td>Boot Block (000000-0001FFh) not protected from table reads executed in other blocks</td></tr>
+<tr><td>ON</td><td>Boot Block (000000-0001FFh) protected from table reads executed in other blocks</td></table>
+<h4 class="">Register: IDLOC0 @ 0x200000</h4>
+<h4 class="">Register: IDLOC1 @ 0x200001</h4>
+<h4 class="">Register: IDLOC2 @ 0x200002</h4>
+<h4 class="">Register: IDLOC3 @ 0x200003</h4>
+<h4 class="">Register: IDLOC4 @ 0x200004</h4>
+<h4 class="">Register: IDLOC5 @ 0x200005</h4>
+<h4 class="">Register: IDLOC6 @ 0x200006</h4>
+<h4 class="">Register: IDLOC7 @ 0x200007</h4>
+</HTML>

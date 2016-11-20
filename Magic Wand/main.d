@@ -1,0 +1,1 @@
+ main.d  main.p1:  C:/Users/Toto/Documents/Work/Lamtec\ Board\ Tester/main.c C:/Users/Toto/Documents/Work/Lamtec\ Board\ Tester/DELAY16.H C:/Users/Toto/Documents/Work/Lamtec\ Board\ Tester/General.h C:/Users/Toto/Documents/Work/Lamtec\ Board\ Tester/lcd.h C:/Users/Toto/Documents/Work/Lamtec\ Board\ Tester/adc.h

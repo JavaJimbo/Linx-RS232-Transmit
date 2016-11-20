@@ -1,0 +1,178 @@
+//  LINX Transmit - MPLABX project
+//  C language written for for 18F2520 on XC8 Comppiler
+//
+//  5-24-14 JBS
+
+#include <plib.h>
+#include <math.h>
+#include <stdlib.h>
+#include <string.h>
+#include <conio.h>
+#include <stdio.h>
+#include <ctype.h>
+#include "DELAY16.H"
+
+#pragma config IESO = OFF, OSC = HS, FCMEN = OFF, BOREN = OFF, PWRT = ON, WDT = OFF, CCP2MX = PORTC, PBADEN = OFF, LPT1OSC = OFF, MCLRE = ON, DEBUG = OFF, STVREN = OFF, XINST = OFF, LVP = OFF, CP0 = OFF, CP1 = OFF, CP2 = OFF, CP3 = OFF  // For 18F2520
+
+#define false 0
+#define true !false
+#define TRUE true
+#define FALSE false
+#define NUM_DATA_BITS 8
+
+#define DEBOUNCE_TIME 64000		// About 250 ms
+
+#define PDownOut 	PORTAbits.RA1
+#define TXout 		PORTBbits.RB6
+#define PUSHin 		PORTBbits.RB0
+#define TXmark 		PORTBbits.RB5
+#define TestOut         PORTBbits.RB1
+
+void init(void);
+
+#define MAXBUFFER 16
+
+void main(){		
+unsigned char testByte=0;
+unsigned short counter=255;
+unsigned char XMITstate=0;
+unsigned char XMITbuffer[MAXBUFFER]=">ABCDEF\r";
+unsigned char ch, i;
+	
+	init();
+        TestOut=0;
+        TXmark=1;
+        TXout=0;
+	printf ("\rTesting new compiler.\r");		
+		
+	while(1){
+
+            if (TMR2IF){
+                TMR2IF=0;
+                if (counter) counter--;
+                if (!counter){
+                    XMITstate++;
+                    switch (XMITstate){
+                        case 1:           
+                            counter=15;                            
+                            putch(0);
+                            break;
+
+                        case 2:                            
+                            while(!TXIF)continue;
+                            SPBRG = 59;				// set the baud rate to 4800 for 18.432 Mhz clock
+                            counter=10;
+                            break;
+
+                        case 3:
+                            TestOut=1;
+                            XMITbuffer[2]=testByte++;
+                            for(i=0;i<8;i++){
+                                ch=XMITbuffer[i];
+                                putch(ch);
+                                if (ch=='\r')break;
+                            }           
+                            while(!TXIF)continue;                                             
+                            TestOut=0;
+                            counter=1000;
+                            SPBRG = 59;				// set the baud rate to 4800 for 18.432 Mhz clock
+                            XMITstate=0;
+                            break;
+
+                        default:
+                            XMITstate=0;
+                            break;
+                    }
+                }
+            }
+
+            /*
+		if (PUSHin==0){
+			putch(0);
+			putch('>');
+			putch(testByte++);
+			putch('\r');
+			DelayMs(100);
+		}*/
+			
+	} // end while(1)
+} // end main()
+			
+			
+			
+
+
+void init(void){	
+	GIE 	= 0;        	// Global interrupt disabled
+	TRISA  	= 0b11111100; 	// RA0 is Data Out, RA1 is power down out
+	ADCON0 	= 0;	   
+	ADCON1 	= 0b00001111;  	// PORT A is all digital
+	RBPU 	= 0;			// Enable Port B pullups    
+        TRISB = 0b11011101;
+	RBPU = 0;				// Enable pullups
+	TRISC 	= 0b10111111;   // TX is output, rest is input
+
+							// Set up the UART 
+	TXSTAbits.BRGH = 0;				// Low speed baud rate
+	SPBRG = 59;				// set the baud rate to 4800 for 18.432 Mhz clock
+	
+	//SPBRG = 59;			// set the baud rate to 19,200 for 18.432 Mhz clock
+	// SPBRG = 12;			// set the baud rate to 19,200 for 4 Mhz clock
+	// SPBRG = 51;				// set the baud rate to 19,200 for 16 Mhz clock
+
+	TXSTAbits.SYNC = 0;	// asynchronous
+	RCSTAbits.SPEN = 1;	// enable serial port pins
+	RCSTAbits.CREN = 1;	// enable reception
+	RCSTAbits.SREN = 0;	// no effect
+	TXIE = 0;	// disable tx interrupts 
+	RCIE = 0;	// disable rx interrupts 
+	TXSTAbits.TX9  = 0;	// 8-bit transmission
+	RCSTAbits.RX9  = 0;	// 8-bit reception
+	TXSTAbits.TXEN = 1;	// Enable the transmitter
+
+	BAUDCONbits.TXCKP = 1;	// Invert transmit and receive data
+	BAUDCONbits.RXDTP = 1;
+        
+	// Set up Timer 2 to roll over every 0.0001 seconds:	
+        T2CON=0x00;
+        T2CONbits.T2CKPS0=1;        // 1:16 prescaler
+        T2CONbits.T2CKPS1=1;
+        T2CONbits.T2OUTPS0=0;       // 1:1 postscaler
+        T2CONbits.T2OUTPS1=0;
+        T2CONbits.T2OUTPS2=0;
+        T2CONbits.T2OUTPS3=0;
+	PR2 = 29;
+	TMR2ON = 1;			// Timer 2 ON
+	
+    // Set up UART interrupts:
+	INTCON = 0x00;  // First, clear all interrupts
+	PIE1 = 0;       // Clear all peripheral interrupts
+	SSPIE = 0;      // Disable SSP interrupts
+
+	RCIE = 0;       // Disable UART receiver interrupts.
+	TXIE = 0;       // Disable UART tx interrupts 
+
+    
+	PEIE = 1;       // Enable peripheral interrupts.
+	TMR0IE = 0;		// Disable timer 0 interrupts.
+	TMR1IE = 0;		// Disable timer 1 interrupts.
+	TMR2IE = 0;     // Disable timer 2 interrupts.
+
+	GIE = 1;        // Disable global interrupts           
+}
+
+ 	
+static void interrupt isr (void) {
+	
+    if (TMR2IF){
+        TMR2IF=0;
+    }
+}
+
+void putch (unsigned char TxByte){
+	while(!TXIF)	// set when register is empty 
+		continue;
+	TXREG = TxByte;
+	return;
+}
+		
