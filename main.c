@@ -1,9 +1,11 @@
 /*  LINX Transmit - MPLABX project
+ *  For Magic Wand boards
  *  C language written for for 18F2520 on XC8 Compiler
  *
  *  5-24-14 
  *  11-19-16
- * 
+ *  11-20-16: Works with sleep mode. Sends ">ABCDEF<\r" at 9600 baud on Tx UART pin.
+ *  Uses RA0 pin to send start bits.
  */
 
 #include <XC.h>
