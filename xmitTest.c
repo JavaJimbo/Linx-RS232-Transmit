@@ -6,7 +6,7 @@ void xmitStopSequence(void);
 #define TX_OUT LATAbits.LATA0
 
 void xmitData(unsigned char *ptrData, unsigned char numBytes){
-    unsigned char dataVal, i, j, k, mask, delay;
+    unsigned char dataVal, i, j, k, mask;    
         
     for (i = 0; i < numBytes; i++){
         dataVal = ptrData[i];
@@ -27,7 +27,7 @@ void xmitData(unsigned char *ptrData, unsigned char numBytes){
                 k = 50; while(k--);         
             }      
             mask = mask << 1;
-        }
+        }  
     }    
 }
 
