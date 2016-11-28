@@ -9,8 +9,9 @@
  *  11-25-16: Got Manchester Coding working on magic wands 
  *              with 18LF2520 running at 16 Mhz with Timer 2 rooling over at 100 uS 
  *  11-27-16: Simplified Manchester transmitting / receiving and greatly improved reliability.
- *              Transmit errors rarely occur. Distance improved significantly.
- *              Created xmitTest.c file.
+ *  Transmit errors rarely occur. Distance improved significantly.
+ *  Created xmitTest.c file.
+ *  Added multibyte packets and CRC check. Works great! 
  */
 
 #include <XC.h>
@@ -37,29 +38,46 @@
 extern void xmitData(unsigned char *ptrData, unsigned char numBytes);
 extern void xmitStartSequence(void);
 extern void xmitStopSequence(void);
+extern unsigned short CRCcalculate(unsigned char *message, unsigned char nBytes);
 
 void init(void);
 
-#define MAXBUFFER 16
+#define COMMAND_LENGTH 16
 
 void main() {
-    unsigned char commandBuffer[MAXBUFFER];
+    unsigned short CRCinteger;
     unsigned char command = 0;
+    unsigned char commandBuffer[COMMAND_LENGTH];      
+    union {
+        unsigned char CRCbyte[2];
+        unsigned short CRCinteger;
+    } convert;    
     
     init();
     PDownOut = 0;
     TX_OUT = 0;
     TRIG_OUT = 0;
+    DelayMs(100);
     Sleep();
 
-    while (1) {
+    while (1) {  
+        commandBuffer[0] = 7;
+        commandBuffer[1] = command++;
+        commandBuffer[2] = command++;
+        commandBuffer[3] = command++;
+        commandBuffer[4] = command++;
+        commandBuffer[5] = command++;
+        commandBuffer[6] = command++;
+        commandBuffer[7] = command++;
+        
+        convert.CRCinteger = CRCcalculate(&commandBuffer[1], 7);
+        commandBuffer[8] = convert.CRCbyte[0];
+        commandBuffer[9] = convert.CRCbyte[1];
         PDownOut = 1;    
         DelayMs(10);
-        commandBuffer[0] = command;
-        command++;
         TRIG_OUT = 1;
         xmitStartSequence();
-        xmitData(commandBuffer, 1);
+        xmitData(commandBuffer, 10);
         xmitStopSequence();
         TRIG_OUT = 0;
         PDownOut = 0;
